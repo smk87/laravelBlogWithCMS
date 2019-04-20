@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use App\Http\Requests\Categories\CreateCategoryRequest;
+use App\Http\Requests\Categories\UpdateCategoryRequest;
 
 class CategoriesController extends Controller
 {
@@ -33,12 +35,9 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCategoryRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|unique:categories'
-        ]);
-
+        // Create and save to DB using static method. $fiillable needed in model.
         Category::create([
             'name' => $request->name
         ]);
@@ -65,9 +64,9 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        return view('categories.create')->with('category', $category);
     }
 
     /**
@@ -77,9 +76,16 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        // Update and save to DB
+        $category->update([
+            'name' => $request->name
+        ]);
+
+        session()->flash('success', 'Category updated successfully.');
+
+        return redirect(route('categories.index'));
     }
 
     /**
@@ -88,8 +94,12 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        session()->flash('success', 'Category deleted successfully.');
+
+        return redirect(route('categories.index'));
     }
 }
