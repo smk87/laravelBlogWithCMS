@@ -89,10 +89,15 @@
                     <div class="col-md-4">
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <a href="">Posts</a>
+                                <a href="/posts">Posts</a>
                             </li>
                             <li class="list-group-item">
                                 <a href="/categories">Categories</a>
+                            </li>
+                        </ul>
+                        <ul class="list-group mt-5">
+                            <li class="list-group-item">
+                                <a href="/trashed-post">Trash Posts</a>
                             </li>
                         </ul>
                     </div>
