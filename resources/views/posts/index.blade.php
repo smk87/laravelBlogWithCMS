@@ -22,7 +22,7 @@
                     <td><img src="/storage/{{$post->image}}" width="120px"></td>
                     <td>{{$post->title}}</td>
                     @if (!$post->trashed())
-                    <td><button class="btn btn-info btn-sm">Edit</button></td>
+                    <td><a href="{{route('posts.edit',$post->id)}}" class="btn btn-info btn-sm">Edit</a></td>
                     @endif
                     <td>
                         <form action="{{route('posts.destroy',$post->id)}}" method="POST">
