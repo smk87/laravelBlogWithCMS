@@ -89,6 +89,11 @@
                     {{session()->get('success')}}
                 </div>
                 @endif
+                @if (session()->has('error'))
+                <div class="alert alert-danger">
+                    {{session()->get('error')}}
+                </div>
+                @endif
                 <div class="row">
                     <div class="col-md-4">
                         <ul class="list-group">
@@ -97,6 +102,9 @@
                             </li>
                             <li class="list-group-item">
                                 <a href="/categories">Categories</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/tags">Tags</a>
                             </li>
                         </ul>
                         <ul class="list-group mt-5">
