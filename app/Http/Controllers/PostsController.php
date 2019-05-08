@@ -8,6 +8,7 @@ use App\Post;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Posts\UpdatePostsRequest;
 use App\Category;
+use App\Tag;
 
 class PostsController extends Controller
 {
@@ -33,7 +34,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create')->with('categories', Category::all());
+        return view('posts.create')->with('categories', Category::all())->withtags(Tag::all());
     }
 
     /**
@@ -48,7 +49,7 @@ class PostsController extends Controller
         $image = $request->image->store('posts');
 
         // create the post
-        Post::create([
+        $post = Post::create([
             'title' => $request->title,
             'description' => $request->description,
             'content' => $request->content,
@@ -57,7 +58,11 @@ class PostsController extends Controller
             'category_id' => $request->category
         ]);
 
-        // flash mesage
+        if ($request->tags) {
+            $post->tags()->attach($request->tags);
+        }
+
+        // flash message
         session()->flash('success', 'Post created successfully.');
 
         // redirect user
@@ -83,7 +88,7 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.create')->withpost($post)->withcategories(Category::all());
+        return view('posts.create')->withpost($post)->withcategories(Category::all())->withtags(Tag::all());
     }
 
     /**
@@ -104,6 +109,11 @@ class PostsController extends Controller
             // delete old one
             $post->deleteImage();
             $data['image'] = $image;
+        }
+
+        // Sync the selected tags
+        if ($request->tags) {
+            $post->tags()->sync($request->tags);
         }
 
         // update attribute
