@@ -26,15 +26,28 @@ class PostsTableSeeder extends Seeder
             'name' => 'Partnership'
         ]);
 
+        $author1 = App\User::create([
+            'name' => 'John Doe',
+            'email' => 'john@doe.com',
+            'password' => Hash::make('123456')
+        ]);
+
+        $author2 = App\User::create([
+            'name' => 'Jane Doe',
+            'email' => 'jane@doe.com',
+            'password' => Hash::make('123456')
+        ]);
+
         $post1 = Post::create([
             'title' => 'Dummy title',
             'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus vel fugiat aliquid veniam ratione velit!',
             'content' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae consequatur quas quos labore quo voluptate?',
             'category_id' => $category1->id,
-            'image' => 'posts/6.jpg'
+            'image' => 'posts/6.jpg',
+            'user_id' => $author1->id
         ]);
 
-        $post2 = Post::create([
+        $post2 = $author2->posts()->create([
             'title' => 'Lorem, ipsum dolor.',
             'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus vel fugiat aliquid veniam ratione velit!',
             'content' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae consequatur quas quos labore quo voluptate?',
@@ -42,7 +55,7 @@ class PostsTableSeeder extends Seeder
             'image' => 'posts/7.jpg'
         ]);
 
-        $post3 = Post::create([
+        $post3 = $author1->posts()->create([
             'title' => 'Lorem ipsum dolor sit.',
             'description' => ' Lorem ipsum dolor sit amet consectetur adipisici ng elit. Temporibus vel fugiat aliquid veniam  ratione velit!',
             'content' => 'Lorem ipsum, dolor sit amet consectet ur adipisicing elit. Beatae consequatur quas  q uos labore quo v oluptate?',
@@ -50,7 +63,7 @@ class PostsTableSeeder extends Seeder
             'image' => 'posts/8.jpg'
         ]);
 
-        $post4 = Post::create([
+        $post4 = $author2->posts()->create([
             'title' => 'Lorem ipsum dolor sit amet.',
             'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus vel fugiat aliquid veniam ratione velit!',
             'content' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae consequatur quas quos labore quo voluptate?',

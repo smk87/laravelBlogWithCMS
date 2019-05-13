@@ -10,7 +10,7 @@ class Post extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'description', 'content', 'published_at', 'image', 'category_id'];
+    protected $fillable = ['title', 'description', 'content', 'published_at', 'image', 'category_id', 'user_id'];
 
 
     // @@ Delete image from storage
@@ -27,6 +27,11 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     // Check if tag is selected for this post
